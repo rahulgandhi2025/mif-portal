@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@xyflow/react/dist/style.css";
+
+html, body, #root { height: 100%; }
+
+body {
+  @apply text-slate-900 font-sans antialiased;
+  background-color: #3da8cc;                  /* brand cyan */
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.80) 100%),
+    radial-gradient(1200px 800px at 10% -10%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(1000px 700px at 90% 110%, rgba(14,47,61,0.15), transparent 60%);
+  background-attachment: fixed;
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-maersk-700 text-white hover:bg-maersk-800; }
+  .btn-secondary { @apply btn bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50; }
+  .btn-ghost { @apply btn text-slate-600 hover:bg-slate-100; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+  .input { @apply w-full rounded-md border-0 py-2 px-3 text-sm ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-maersk-600 bg-white; }
+  .label { @apply block text-xs font-medium text-slate-700 mb-1; }
+  .card { @apply bg-white rounded-lg shadow-sm ring-1 ring-slate-200; }
+  .badge { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium; }
+}
