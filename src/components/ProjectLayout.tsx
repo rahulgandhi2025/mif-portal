@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Pencil } from "lucide-react";
 import { NewProjectDialog, PROJECT_STAGES } from "../pages/NewProject";
 import { projectProgress } from "../lib/progress";
+import { exportProjectToFile } from "../lib/projectArchive";
 import type { ProjectStatus } from "../types";
 import { useAppStore, useProject, useProjectArtefacts } from "../store/useAppStore";
 
@@ -61,6 +62,9 @@ export default function ProjectLayout() {
           </span>
           <button className="btn-secondary !py-1 !px-2 text-xs" onClick={() => setEditOpen(true)}>
             <Pencil className="h-3.5 w-3.5" /> Edit project
+          </button>
+          <button className="btn-secondary !py-1 !px-2 text-xs" onClick={() => exportProjectToFile(project.id)}>
+            <Download className="h-3.5 w-3.5" /> Export project
           </button>
           <span className="badge bg-slate-100 text-slate-700">
             {a.systems.length} systems · {a.interfaces.length} interfaces · {a.useCases.length} UCs · {a.testCases.length} SITs

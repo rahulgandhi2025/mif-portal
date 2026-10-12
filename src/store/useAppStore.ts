@@ -76,6 +76,8 @@ interface AppState {
   createProject: (p: Omit<Project, "id" | "createdAt" | "updatedAt">) => Project;
   updateProject: (id: string, patch: Partial<Project>) => void;
   deleteProject: (id: string) => void;
+  // "replace" overwrites a project with the same id; "copy" always stores it under a new id.
+  importProject: (project: Project, artefacts: ProjectArtefacts, mode: "replace" | "copy") => Project;
 
   // concept design
   addSystem: (projectId: string, catalogKey: string) => void;
@@ -162,6 +164,21 @@ export const useAppStore = create<AppState>()(
           const { [id]: _drop, ...rest } = s.artefacts;
           return { projects: s.projects.filter((p) => p.id !== id), artefacts: rest };
         });
+      },
+      importProject(project, artefacts, mode) {
+        const imported: Project = mode === "copy"
+          ? { ...project, id: uid("prj_"), name: `${project.name} (imported copy)`, updatedAt: now() }
+          : { ...project };
+        set((s) => {
+          const exists = s.projects.some((p) => p.id === imported.id);
+          return {
+            projects: exists
+              ? s.projects.map((p) => (p.id === imported.id ? imported : p))
+              : [imported, ...s.projects],
+            artefacts: { ...s.artefacts, [imported.id]: ensureA({ [imported.id]: artefacts }, imported.id) },
+          };
+        });
+        return imported;
       },
 
       addSystem(projectId, catalogKey) {

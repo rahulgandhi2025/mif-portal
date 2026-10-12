@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Search, TrendingUp, Layers, Cable, CheckCircle2, Trash2, Pencil } from "lucide-react";
+import { Plus, Search, TrendingUp, Layers, Cable, CheckCircle2, Trash2, Pencil, Download } from "lucide-react";
 import { useAppStore } from "../store/useAppStore";
+import { ImportProjectButton } from "../components/ImportProject";
+import { exportProjectToFile } from "../lib/projectArchive";
 import { NewProjectDialog, PROJECT_STAGES } from "./NewProject";
 import { projectProgress } from "../lib/progress";
 import { EMPTY_ARTEFACTS } from "../types";
@@ -104,6 +106,7 @@ export default function Dashboard() {
                 onChange={(e) => setQ(e.target.value)}
               />
             </div>
+            <ImportProjectButton />
             <button className="btn-primary" onClick={() => setOpen(true)}>
               <Plus className="h-4 w-4" /> New Project
             </button>
@@ -177,6 +180,9 @@ export default function Dashboard() {
                         </div>
                       </td>
                       <td className="px-2 py-2 whitespace-nowrap">
+                        <button className="btn-ghost !p-1" title="Export project to file" onClick={() => exportProjectToFile(p.id)}>
+                          <Download className="h-4 w-4 text-slate-500" />
+                        </button>
                         <button className="btn-ghost !p-1" title="Edit project" onClick={() => setEditing(p)}>
                           <Pencil className="h-4 w-4 text-slate-500" />
                         </button>
